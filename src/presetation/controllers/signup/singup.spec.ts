@@ -207,4 +207,25 @@ describe('SingUp Controller', () => {
       password: 'my_password'
     })
   })
+
+  test('should return 500 if AddAcount throws', () => {
+    const { sut, addAccountStub } = makeSut()
+
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const httpRequest = {
+      body: {
+        name: 'my_name',
+        email: 'my_email',
+        password: 'my_password',
+        passwordConfirmation: 'my_password'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
 })
