@@ -1,5 +1,6 @@
 # Advantages
-Criando e configurando um ambiente limpo com typescript, eslint, commit-msg e jest
+Criando um projeto com Node-js com express, typescript e mongoDB;
+Seguindo e aplicando as melhores práticas de projeto, tais temas: Clean Architecture, Solid, Clean Code TDD.
 
 ## Possiveis problemas
 
