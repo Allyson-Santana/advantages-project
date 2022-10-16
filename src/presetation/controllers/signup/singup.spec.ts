@@ -23,7 +23,7 @@ const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     add (account: AddAccountModel): AccountModel {
       const fakeAccount = {
-        id: 'valid_id',
+        id: 'valid_my_id',
         name: 'valid_my_name',
         email: 'valid_my_email',
         password: 'valid_my_password'
@@ -227,5 +227,27 @@ describe('SingUp Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('should return 200 if valid date is provided', () => {
+    const { sut } = makeSut()
+
+    const httpRequest = {
+      body: {
+        name: 'valid_my_name',
+        email: 'valid_my_email',
+        password: 'valid_my_password',
+        passwordConfirmation: 'valid_my_password'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual({
+      id: 'valid_my_id',
+      name: 'valid_my_name',
+      email: 'valid_my_email',
+      password: 'valid_my_password'
+    })
   })
 })
