@@ -29,9 +29,9 @@ describe('SingUp Controller', () => {
 
     const httpRequest = {
       body: {
-        email: 'my e-mail',
-        passowrd: 'my passowrd',
-        passwordConfirmation: 'my passowrdConfirmation'
+        email: 'my_email',
+        passowrd: 'my_passowrd',
+        passwordConfirmation: 'my_passowrdConfirmation'
       }
     }
 
@@ -45,9 +45,9 @@ describe('SingUp Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'my name',
-        passowrd: 'my passowrd',
-        passwordConfirmation: 'my passowrdConfirmation'
+        name: 'my_name',
+        passowrd: 'my_passowrd',
+        passwordConfirmation: 'my_passowrdConfirmation'
       }
     }
 
@@ -61,9 +61,9 @@ describe('SingUp Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'my name',
-        email: 'my e-mail',
-        passwordConfirmation: 'my passowrdConfirmation'
+        name: 'my_name',
+        email: 'my_email',
+        passwordConfirmation: 'my_passowrdConfirmation'
       }
     }
 
@@ -77,9 +77,9 @@ describe('SingUp Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'my name',
-        email: 'my e-mail',
-        password: 'my password'
+        name: 'my_name',
+        email: 'my_email',
+        password: 'my_password'
       }
     }
 
@@ -95,9 +95,9 @@ describe('SingUp Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'my name',
-        email: 'my e-mail',
-        password: 'my password',
+        name: 'my_name',
+        email: 'my_email',
+        password: 'my_password',
         passwordConfirmation: 'my passwordConfirmation'
       }
     }
@@ -105,5 +105,23 @@ describe('SingUp Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new IvalidParamError('email'))
+  })
+
+  test('should call EmailValidator with correct email', () => {
+    const { sut, emailValidatorStub } = makeSut()
+
+    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
+
+    const httpRequest = {
+      body: {
+        name: 'my_name',
+        email: 'my_email',
+        password: 'my_password',
+        passwordConfirmation: 'my passwordConfirmation'
+      }
+    }
+
+    sut.handle(httpRequest)
+    expect(isValidSpy).toHaveBeenCalledWith('my_email')
   })
 })
