@@ -2,10 +2,10 @@ import { AccountModel } from '../../../domain/models/account'
 import { AddAccount, AddAccountModel } from '../../../domain/usecase/add-account'
 import { MissingParamError, IvalidParamError, ServerError } from '../../errors'
 import { EmailValidator } from '../../protocols/email-validator'
-import { SingUpController } from './singup'
+import { SignUpController } from './signup'
 
 interface SutTypes {
-  sut: SingUpController,
+  sut: SignUpController,
   emailValidatorStub: EmailValidator,
   addAccountStub: AddAccount
 }
@@ -37,7 +37,7 @@ const makeAddAccount = (): AddAccount => {
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
   const addAccountStub = makeAddAccount()
-  const sut = new SingUpController(emailValidatorStub, addAccountStub)
+  const sut = new SignUpController(emailValidatorStub, addAccountStub)
 
   return {
     sut,
