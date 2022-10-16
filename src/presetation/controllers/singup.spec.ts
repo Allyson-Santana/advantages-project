@@ -1,10 +1,13 @@
+import { AccountModel } from './domain/models/account'
+import { AddAccount, AddAccountModel } from './domain/usecase/add-account'
 import { MissingParamError, IvalidParamError, ServerError } from './errors'
 import { EmailValidator } from './protocols'
 import { SingUpController } from './singup'
 
 interface SutTypes {
   sut: SingUpController,
-  emailValidatorStub: EmailValidator
+  emailValidatorStub: EmailValidator,
+  addAccountStub: AddAccount
 }
 
 const makeEmailValidator = (): EmailValidator => {
@@ -16,13 +19,30 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
+const makeAddAccount = (): AddAccount => {
+  class AddAccountStub implements AddAccount {
+    add (account: AddAccountModel): AccountModel {
+      const fakeAccount = {
+        id: 'valid_id',
+        name: 'valid_my_name',
+        email: 'valid_my_email',
+        password: 'valid_my_password'
+      }
+      return fakeAccount
+    }
+  }
+  return new AddAccountStub()
+}
+
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
-  const sut = new SingUpController(emailValidatorStub)
+  const addAccountStub = makeAddAccount()
+  const sut = new SingUpController(emailValidatorStub, addAccountStub)
 
   return {
     sut,
-    emailValidatorStub
+    emailValidatorStub,
+    addAccountStub
   }
 }
 
@@ -164,5 +184,27 @@ describe('SingUp Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('should call EmailValidator with correct email', () => {
+    const { sut, addAccountStub } = makeSut()
+
+    const addSpy = jest.spyOn(addAccountStub, 'add')
+
+    const httpRequest = {
+      body: {
+        name: 'my_name',
+        email: 'my_email',
+        password: 'my_password',
+        passwordConfirmation: 'my_password'
+      }
+    }
+
+    sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'my_name',
+      email: 'my_email',
+      password: 'my_password'
+    })
   })
 })
