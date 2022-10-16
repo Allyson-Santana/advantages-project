@@ -1,6 +1,6 @@
 # Advantages
 Criando um projeto com Node-js com express, typescript e mongoDB;
-Seguindo e aplicando as melhores práticas de projeto, tais temas: Clean Architecture, Solid, Clean Code TDD.
+Seguindo e aplicando as melhores práticas de projeto, tais temas: Clean Architecture, Solid, Clean Code, Commit semânticos e TDD.
 
 ## Possiveis problemas
 
