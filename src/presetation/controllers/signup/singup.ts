@@ -1,6 +1,6 @@
 import { AddAccount } from '../../../domain/usecase/add-account'
 import { MissingParamError, IvalidParamError } from '../../errors'
-import { badRequest, serverError } from '../../helpers/http-helper'
+import { badRequest, serverError, ok } from '../../helpers/http-helper'
 import { Controller, httpRequest, httpResponse } from '../../protocols'
 import { EmailValidator } from './sign-protocols'
 
@@ -32,11 +32,13 @@ export class SingUpController implements Controller {
         return badRequest(new IvalidParamError('email'))
       }
 
-      this.addAccount.add({
+      const account = this.addAccount.add({
         name,
         email,
         password
       })
+
+      return ok(account)
     } catch (error) {
       return serverError()
     }
