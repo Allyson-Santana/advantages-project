@@ -34,7 +34,7 @@ describe('SingUp Controller', () => {
       body: {
         email: 'my_email',
         passowrd: 'my_passowrd',
-        passwordConfirmation: 'my_passowrdConfirmation'
+        passwordConfirmation: 'my_password'
       }
     }
 
@@ -50,7 +50,7 @@ describe('SingUp Controller', () => {
       body: {
         name: 'my_name',
         passowrd: 'my_passowrd',
-        passwordConfirmation: 'my_passowrdConfirmation'
+        passwordConfirmation: 'my_password'
       }
     }
 
@@ -66,7 +66,7 @@ describe('SingUp Controller', () => {
       body: {
         name: 'my_name',
         email: 'my_email',
-        passwordConfirmation: 'my_passowrdConfirmation'
+        passwordConfirmation: 'my_password'
       }
     }
 
@@ -91,6 +91,23 @@ describe('SingUp Controller', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'))
   })
 
+  test('should return 400 if password confirmation is fails', () => {
+    const { sut } = makeSut()
+
+    const httpRequest = {
+      body: {
+        name: 'my_name',
+        email: 'my_email',
+        password: 'my_password',
+        passwordConfirmation: 'my_passowrdConfirmation'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new IvalidParamError('passwordConfirmation'))
+  })
+
   test('should return 400 if invalid email is provided', () => {
     const { sut, emailValidatorStub } = makeSut()
 
@@ -101,7 +118,7 @@ describe('SingUp Controller', () => {
         name: 'my_name',
         email: 'my_email',
         password: 'my_password',
-        passwordConfirmation: 'my passwordConfirmation'
+        passwordConfirmation: 'my_password'
       }
     }
 
@@ -120,7 +137,7 @@ describe('SingUp Controller', () => {
         name: 'my_name',
         email: 'my_email',
         password: 'my_password',
-        passwordConfirmation: 'my passwordConfirmation'
+        passwordConfirmation: 'my_password'
       }
     }
 
@@ -140,7 +157,7 @@ describe('SingUp Controller', () => {
         name: 'my_name',
         email: 'my_email',
         password: 'my_password',
-        passwordConfirmation: 'my passwordConfirmation'
+        passwordConfirmation: 'my_password'
       }
     }
 
