@@ -1,7 +1,9 @@
 import { Express } from 'express'
-import { boryParser } from '../middlewares/bory-parser'
-import { cors } from '../middlewares/cors'
-import { contentType } from '../middlewares/content-type'
+import {
+  boryParser,
+  cors,
+  contentType
+} from '../middlewares'
 
 export default (app: Express): void => {
   app.use(boryParser)
