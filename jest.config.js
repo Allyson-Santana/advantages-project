@@ -9,7 +9,8 @@ module.exports = {
   },
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts'
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**'
   ],
   coverageProvider: 'v8'
 }
